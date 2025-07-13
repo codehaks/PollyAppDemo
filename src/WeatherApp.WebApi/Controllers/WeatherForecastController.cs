@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace WeatherApp.WebApi.Controllers
 {
@@ -33,6 +34,12 @@ namespace WeatherApp.WebApi.Controllers
         [HttpGet("city/{cityName}")]
         public WeatherForecast GetCityWeather(string cityName)
         {
+            // Simulate transient errors (50% chance of 500 error)
+            if (Random.Shared.Next(1, 101) <= 50)
+            {
+                throw new HttpRequestException("Simulated transient error", null, HttpStatusCode.InternalServerError);
+            }
+
             return new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now),
