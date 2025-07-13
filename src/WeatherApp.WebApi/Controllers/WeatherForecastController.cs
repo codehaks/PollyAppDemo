@@ -29,5 +29,17 @@ namespace WeatherApp.WebApi.Controllers
             })
             .ToArray();
         }
+
+        [HttpGet("city/{cityName}")]
+        public WeatherForecast GetCityWeather(string cityName)
+        {
+            return new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)],
+                City = cityName
+            };
+        }
     }
 }
